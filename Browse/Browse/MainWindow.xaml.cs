@@ -20,9 +20,13 @@ namespace Browse
     /// </summary>
     public partial class MainWindow : Window
     {
+        DocManager docManager;
+        List<String> data = null, data2 = null;
+
         public MainWindow()
         {
             InitializeComponent();
+            docManager = new DocManager();
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
@@ -43,8 +47,37 @@ namespace Browse
             {
                 // Open document 
                 string filename = dlg.FileName;
-                Console.WriteLine(filename.ToString());                
+                Console.WriteLine(filename.ToString());
+                data = docManager.GetData(filename);
             }
+
+        }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+            dlg.FileName = "Doc"; // Default file name
+            dlg.DefaultExt = ".docx"; // Default file extension
+            //dlg.Filter = "Office Doc Files (*.doc)|*.doc | Office DocX Files (*.docx)|*.docx | PDF Files (*.pdf)|*.pdf";
+
+            // Show open file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox
+            if (result == true)
+            {
+                // Open document 
+                string filename = dlg.FileName;
+                Console.WriteLine(filename.ToString());
+                data2 = docManager.GetData(filename);
+            }
+
+
+        }
+
+        private void checkButton_Click(object sender, RoutedEventArgs e)
+        {
 
         }
     }
