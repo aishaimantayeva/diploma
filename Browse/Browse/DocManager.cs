@@ -84,7 +84,7 @@ namespace Browse
             string[] stopwords = System.IO.File.ReadAllLines("stopwords.txt");
             if (stopwords.Length == 0) MessageBox.Show("Can't find stopwords");
             Stemmer stemmer = new Stemmer();
-            //EnglishStemmer estemmer = new EnglishStemmer();
+            
             List<String> trueData = new List<String>();
 
             Array.Sort(stopwords, StringComparer.InvariantCulture);

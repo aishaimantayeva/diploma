@@ -78,7 +78,65 @@ namespace Browse
 
         private void checkButton_Click(object sender, RoutedEventArgs e)
         {
+            CreateVectorsAndCalculate();
+        }
 
+        public void CreateVectorsAndCalculate()
+        {
+            
+            HashSet<String> x = new HashSet<string>();
+            x.UnionWith(data);
+            x.UnionWith(data2);
+
+            List<int> vector1 = new List<int>();
+            List<int> vector2 = new List<int>();
+
+            foreach (String s in x)
+            {
+                vector1.Add(CountString(s, 1));
+                vector2.Add(CountString(s, 2));
+            }
+
+            // time to calculate cosine sim
+
+            double dotProduct = 0f, magnitude1 = 0f, magnitude2 = 0f, cosineSimilarity = 0;
+
+            for (int i = 0; i < vector1.Count; i++)
+            {
+                dotProduct += vector1[i] * 1.0f * vector2[i];
+                magnitude1 += Math.Pow(vector1[i], 2);
+                magnitude2 += Math.Pow(vector2[i], 2);
+            }
+            if (magnitude1 != 0 && magnitude2 != 0)
+            {
+                cosineSimilarity = dotProduct / Math.Sqrt(magnitude1 * magnitude2);
+            }
+            else {
+                cosineSimilarity = 0f;
+            }
+
+            // Showing in percents 
+            cosineSimilarity *= 100.0f;
+
+            MessageBox.Show(cosineSimilarity.ToString() + " % similar");
+        }
+
+        private int CountString(String word, int dataSet)
+        {
+            int count = 0;
+
+            if (dataSet == 1)
+            {
+                foreach (String s in data)
+                    if (s.Equals(word)) count++;
+            }
+            else
+            {
+                foreach (String s in data2)
+                    if (s.Equals(word)) count++;
+            }
+
+            return count;
         }
     }
 }
